@@ -1,0 +1,97 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+
+	<card id="1" name="Basic Attack">
+		<action>
+			<property name="cost">1</property>
+			<property name="deck">defense</property>
+			<property name="damage">attacker.attack</property>
+			<property name="keywords">melee</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">*</property>
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">attacker.attack</property>
+			</do>
+		</action>
+	</card>
+
+	<!-- attack moves -->
+	<card id="1000" name="Shout">
+		<action>
+			<property name="cost">1</property>
+			<property name="deck">defense</property>
+			<property name="damage">attacker.attack * 2</property>
+			<property name="keywords">melee</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">*</property>
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">attacker.attack * 4</property>
+			</do>
+		</action>
+	</card>
+
+	<!-- defense moves -->
+	<card id="1500" name="Counter Attack">
+		<action>
+			<property name="cost">1</property>
+			<property name="keywords">melee</property>
+			<property name="defense-damage-type">full-damage</property>
+			<do instruction="command" name="resolve-defense-damage" />
+			<do instruction="command" name="attack">
+				<property name="attacker">defender</property>
+				<property name="defender">attacker</property>
+			</do>
+		</action>
+	</card>
+	<card id="1501" name="Pushback">
+		<action>
+			<property name="cost">1</property>
+			<property name="keywords">melee</property>
+			<property name="defense-damage-type">full-damage</property>
+			<do instruction="command" name="resolve-defense-damage" />
+			<do instruction="command" name="disable">
+				<property name="character">attacker</property>
+				<property name="deck">attack</property>
+				<property name="draws">1</property>
+			</do>
+		</action>
+	</card>
+	
+	<!-- gaurdian levels -->
+	<class id="2" name="Gaurdian">
+		<stats>
+			<attribute id="1" name="initiative" value="8" />
+			<attribute id="2" name="attack" value="4" />
+			<attribute id="3" name="defense" value="6" />
+			<attribute id="4" name="spirit" value="7" />
+			<attribute id="5" name="pull" value="6" />
+		</stats>
+		<template name="level 1">
+			<add-card deck="attack" id="1000" />
+		</template>
+		<template name="level 2">
+			<add-card deck="attack" id="1000" />
+			<add-card deck="defense" id="1500" />
+		</template>
+		<template name="level 3">
+			<add-card deck="attack" id="1000" />
+			<add-card deck="defense" id="1500" />
+			<add-card deck="defense" id="1501" />
+		</template>
+	</class>
+	
+</facade>

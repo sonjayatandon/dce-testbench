@@ -1,0 +1,124 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+
+	<!-- damage prevention -->
+	<card id="3300" name="Protective Shield">
+		<action>
+			<do instruction="command" name="add-counter">
+				<property name="character">active-character</property>
+				<property name="counter">damage-taken</property>
+				<property name="amount">active-character.damage-taken / 2 * -1</property>
+			</do>
+		</action>
+	</card>
+	<card id="3301" name="Restore Spirit">
+		<action>
+			<do instruction="command" name="add-counter">
+				<property name="character">defender</property>
+				<property name="counter">spirit</property>
+				<property name="amount">defender.defense</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">active-character</property>
+				<property name="counter">damage-taken</property>
+				<property name="amount">active-character.damage-taken / 2 * -1</property>
+			</do>
+		</action>
+	</card>
+	
+	<!-- attack moves -->
+	<card id="3001" name="Protect">
+		<action>
+			<do instruction="command" name="add-card">
+				<property name="character">attacker</property>
+				<property name="ally-index">0</property>
+				<property name="deck">damage</property>
+				<property name="cardId">3300</property>
+				<property name="amount">1</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">puller.defense / 3</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">spirit</property>
+				<property name="amount">-1</property>
+			</do>
+		</action>
+	</card>
+	<card id="3002" name="Heal">
+		<action>
+			<do instruction="command" name="add-card">
+				<property name="character">attacker</property>
+				<property name="ally-index">0</property>
+				<property name="deck">damage</property>
+				<property name="cardId">3301</property>
+				<property name="amount">1</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">puller.defense</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">spirit</property>
+				<property name="amount">-2</property>
+			</do>
+		</action>
+	</card>
+	<card id="3003" name="Leach">
+		<action>
+			<do instruction="command" name="add-counter">
+				<property name="character">defender</property>
+				<property name="counter">spirit</property>
+				<property name="amount">defender.spirit / 4 * -1</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">puller</property>
+				<property name="counter">spirit</property>
+				<property name="amount">defender.spirit / 4</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">spirit</property>
+				<property name="amount">-3</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">defender.spirit / 4</property>
+			</do>
+		</action>
+	</card>
+
+	<!-- healer levels -->
+	<class id="4" name="Healer">
+		<stats>
+			<attribute id="1" name="initiative" value="4" />
+			<attribute id="2" name="attack" value="4" />
+			<attribute id="3" name="defense" value="4" />
+			<attribute id="4" name="spirit" value="9" />
+			<attribute id="5" name="pull" value="2" />
+		</stats>
+		<template name="level 1">
+			<add-card deck="attack" id="3001" />
+		</template>
+		<template name="level 2">
+			<add-card deck="attack" id="3001" />
+			<add-card deck="attack" id="3002" />
+		</template>
+		<template name="level 3">
+			<add-card deck="attack" id="3001" />
+			<add-card deck="attack" id="3002" />
+			<add-card deck="attack" id="3003" />
+		</template>
+	</class>
+	
+</facade>

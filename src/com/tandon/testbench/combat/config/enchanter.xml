@@ -1,0 +1,82 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+
+
+	<!-- attack moves -->
+	<card id="4000" name="Entangle">
+		<action>
+			<do instruction="command" name="add-counter">
+				<property name="character">defender</property>
+				<property name="best">attack</property>
+				<property name="counter">initiative</property>
+				<property name="amount">attacker.spirit</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">spirit</property>
+				<property name="amount">-1</property>
+			</do>
+		</action>
+	</card>
+
+	<card id="4001" name="Diminish">
+		<action>
+			<do instruction="command" name="add-counter">
+				<property name="character">defender</property>
+				<property name="best">pull</property>
+				<property name="counter">defense</property>
+				<property name="amount">attacker.spirit * -1</property>
+				<property name="min">0</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">spirit</property>
+				<property name="amount">-2</property>
+			</do>
+		</action>
+	</card>
+	
+	<card id="4002" name="Expose">
+		<action>
+			<do instruction="command" name="add-counter">
+				<property name="character">defender</property>
+				<property name="best">attack</property>
+				<property name="counter">pull</property>
+				<property name="amount">attacker.spirit * attacker.spirit</property>
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">spirit</property>
+				<property name="amount">-3</property>
+			</do>
+		</action>
+	</card>
+
+	<!-- hunter levels -->
+	<class id="5" name="Enchanter">
+		<stats>
+			<attribute id="1" name="initiative" value="1" />
+			<attribute id="2" name="attack" value="2" />
+			<attribute id="3" name="defense" value="3" />
+			<attribute id="4" name="spirit" value="10" />
+			<attribute id="5" name="pull" value="1" />
+		</stats>
+		<template name="level 1">
+			<add-card deck="attack" id="4000" />
+		</template>
+		<template name="level 2">
+			<add-card deck="attack" id="4000" />
+			<add-card deck="attack" id="4001" />
+		</template>
+		<template name="level 3">
+			<add-card deck="attack" id="4000" />
+			<add-card deck="attack" id="4001" />
+			<add-card deck="attack" id="4002" />
+		</template>
+	</class>
+	
+</facade>

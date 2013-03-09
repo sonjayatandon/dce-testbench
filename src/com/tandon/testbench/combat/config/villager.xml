@@ -1,0 +1,23 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+
+
+
+	<!-- villager levels -->
+	<class id="1" name="Villager">
+		<stats>
+			<attribute id="1" name="initiative" value="1" />
+			<attribute id="2" name="attack" value="1" />
+			<attribute id="3" name="defense" value="0" />
+			<attribute id="4" name="spirit" value="2" />
+			<attribute id="5" name="pull" value="1" />
+		</stats>
+		<template name="level 1">
+		</template>
+	</class>
+	
+</facade>

@@ -1,0 +1,265 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+		com.tandon.testbench.nomads.combat.commands
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+	
+	<card id="1001" name="Compact Chassis">
+		<action>
+			<property name="component-type">chassis</property>
+			<property name="vehicle-type">Car</property>
+			<property name="weight">0</property>
+			<property name="max-weight">500</property>
+			<property name="speed">5</property>
+			<property name="evasion">10</property>
+			<property name="armor">10</property>
+		</action>
+	</card>
+	
+	<card id="1002" name="Mid-size Chassis">
+		<action>
+			<property name="component-type">chassis</property>
+			<property name="vehicle-type">Car</property>
+			<property name="weight">0</property>
+			<property name="max-weight">1000</property>
+			<property name="armor">15</property>
+		</action>
+	</card>
+	
+	<card id="1003" name="SUV Chassis">
+		<action>
+			<property name="component-type">chassis</property>
+			<property name="vehicle-type">Car</property>
+			<property name="weight">0</property>
+			<property name="max-weight">1500</property>
+			<property name="speed">-5</property>
+			<property name="evasion">-10</property>
+			<property name="armor">20</property>
+		</action>
+	</card>
+	
+	<card id="2001" name="Stock Engine">
+		<action>
+			<property name="component-type">engine</property>
+			<property name="vehicle-type">Car</property>
+			<property name="weight">100</property>
+			<property name="speed">10</property>
+		</action>
+	</card>
+	
+	<card id="2002" name="Crate Engine">
+		<action>
+			<property name="component-type">engine</property>
+			<property name="vehicle-type">Car</property>
+			<property name="weight">100</property>
+			<property name="speed">20</property>
+		</action>
+	</card>
+	
+	<card id="2003" name="Super Charge Engine">
+		<action>
+			<property name="component-type">engine</property>
+			<property name="vehicle-type">Car</property>
+			<property name="weight">100</property>
+			<property name="speed">30</property>
+			<property name="evasion">5</property>
+		</action>
+	</card>
+	
+	<card id="3001" name="Stock Wheels">
+		<action>
+			<property name="component-type">wheel</property>
+			<property name="vehicle-type">*</property>
+			<property name="speed">2</property>
+			<property name="armor">5</property>
+		</action>
+	</card>
+	
+	<card id="3002" name="All Terrain Wheels">
+		<action>
+			<property name="component-type">wheel</property>
+			<property name="vehicle-type">*</property>
+			<property name="speed">5</property>
+			<property name="armor">8</property>
+			<property name="evasion">1</property>
+		</action>
+	</card>
+
+	<card id="3003" name="Performance Wheels">
+		<action>
+			<property name="component-type">wheel</property>
+			<property name="vehicle-type">*</property>
+			<property name="speed">7</property>
+			<property name="armor">3</property>
+			<property name="evasion">3</property>
+		</action>
+	</card>
+
+	<card id="4001" name="Stock Battering Ram">
+		<action>
+			<property name="component-type">hard-point</property>
+			<property name="keywords">ability</property>
+			<property name="cost">2</property>
+			<property name="vehicle-type">*</property>
+			<property name="weight">15</property>
+			<property name="armor">10</property>
+			<property name="speed">-5</property>
+			<property name="damage">10</property>
+			<do instruction="command" name="attack" />
+		</action>
+	</card>
+	
+	<card id="4002" name="Barbed Battering Ram">
+		<action>
+			<property name="component-type">hard-point</property>
+			<property name="keywords">ability</property>
+			<property name="cost">2</property>
+			<property name="vehicle-type">*</property>
+			<property name="weight">15</property>
+			<property name="armor">10</property>
+			<property name="speed">-5</property>
+			<property name="damage">15</property>
+			<do instruction="command" name="attack" />
+		</action>
+	</card>
+	
+	<card id="4003" name="Gripper Battering Ram">
+		<action>
+			<property name="component-type">hard-point</property>
+			<property name="keywords">ability</property>
+			<property name="cost">2</property>
+			<property name="vehicle-type">*</property>
+			<property name="weight">15</property>
+			<property name="armor">10</property>
+			<property name="speed">-8</property>
+			<property name="damage">20</property>
+			<do instruction="command" name="attack" />
+			<property name="target">defender</property>			
+			<property name="rounds">1</property>
+			<property name="alter-property">evasion</property>			
+			<property name="alter-amount">-5</property>			
+			<do instruction="command" name="add-effect" />
+		</action>
+	</card>
+	
+	<card id="4101" name="Large Smoke Screen">
+		<action>
+			<property name="component-type">hard-point</property>
+			<property name="keywords">ability</property>
+			<property name="cost">2</property>
+			<property name="vehicle-type">*</property>
+			<property name="weight">15</property>
+			<property name="armor">0</property>
+			<property name="speed">0</property>
+			<property name="rounds">2</property>
+			<property name="target">attacker</property>			
+			<property name="alter-property">evasion</property>			
+			<property name="alter-amount">10</property>			
+			<do instruction="command" name="add-effect" />
+		</action>
+	</card>
+	
+	<card id="4102" name="Poisoned Smoke Screen">
+		<action>
+			<property name="component-type">hard-point</property>
+			<property name="keywords">ability</property>
+			<property name="cost">2</property>
+			<property name="vehicle-type">*</property>
+			<property name="weight">15</property>
+			<property name="armor">10</property>
+			<property name="speed">-5</property>
+			<property name="damage">5</property>
+			<property name="rounds">1</property>
+			<property name="target">attacker</property>			
+			<property name="alter-property">evasion</property>			
+			<property name="alter-amount">10</property>			
+			<do instruction="command" name="attack" />
+			<do instruction="command" name="add-effect" />
+		</action>
+	</card>
+	
+	<card id="4200" name="4 Prong Caltrop">
+		<action>
+			<property name="component-type">hard-point</property>
+			<property name="keywords">ability</property>
+			<property name="cost">2</property>
+			<property name="vehicle-type">*</property>
+			<property name="weight">25</property>
+			<property name="armor">0</property>
+			<property name="speed">0</property>
+			<property name="damage">3</property>
+			<do instruction="command" name="attack" />
+		</action>
+	</card>
+	
+	<class id="1" name="Car">
+		<stats>
+			<attribute id="1" name="max-chasis" value="1" />
+			<attribute id="2" name="max-engine" value="1" />
+			<attribute id="3" name="max-wheel" value="1" />
+			<attribute id="4" name="max-hard-point" value="6" />
+			<attribute id="5" name="max-staff" value="2" />
+		</stats>
+		
+		<template name="compact stock-build">
+			<add-card deck="component" id="1001" />
+			<add-card deck="component" id="2001" />
+			<add-card deck="component" id="3001" />
+			<add-card deck="component" id="4001" />
+		</template>
+
+		<template name="compact smoke-build">
+			<add-card deck="component" id="1001" />
+			<add-card deck="component" id="2001" />
+			<add-card deck="component" id="3001" />
+			<add-card deck="component" id="4001" />
+			<add-card deck="component" id="4101" />
+		</template>
+
+		<template name="compact poison-build">
+			<add-card deck="component" id="1001" />
+			<add-card deck="component" id="2001" />
+			<add-card deck="component" id="3001" />
+			<add-card deck="component" id="4001" />
+			<add-card deck="component" id="4102" />
+		</template>
+
+		<template name="compact fast gripper">
+			<add-card deck="component" id="1001" />
+			<add-card deck="component" id="2003" />
+			<add-card deck="component" id="3003" />
+			<add-card deck="component" id="4003" />
+		</template>
+		
+		<template name="suv smoke bruiser">
+			<add-card deck="component" id="1003" />
+			<add-card deck="component" id="2003" />
+			<add-card deck="component" id="3002" />
+			<add-card deck="component" id="4002" />
+			<add-card deck="component" id="4101" />
+			<add-card deck="component" id="4102" />
+		</template>
+
+		<template name="compact fast gripper with 4prong calltrop">
+			<add-card deck="component" id="1001" />
+			<add-card deck="component" id="2003" />
+			<add-card deck="component" id="3003" />
+			<add-card deck="component" id="4003" />
+			<add-card deck="component" id="4200" />
+		</template>
+		
+		<template name="suv smoke bruiser with 4prong calltrop">
+			<add-card deck="component" id="1003" />
+			<add-card deck="component" id="2003" />
+			<add-card deck="component" id="3002" />
+			<add-card deck="component" id="4002" />
+			<add-card deck="component" id="4101" />
+			<add-card deck="component" id="4102" />
+			<add-card deck="component" id="4200" />
+		</template>
+	</class>
+	
+	
+</facade>

@@ -1,0 +1,669 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+
+	<card id="1000001" name="Torrential Rain">
+		<property name="card-type">survival-event</property>
+		<property name="event-category">explore-terrain-rain</property>
+		<property name="event-power-type">explorer</property>
+		<property name="event-power">20</property>
+		<property name="ability">awesomeness</property>
+		<property name="weakness">defends-rain</property>
+		<property name="flavor">Torrents of Rain are hampering visibility</property>
+
+		<do instruction="command" name="resolve-event" />
+		<on>
+			<player-win>
+				<do instruction="command" name="log-message">
+					<property name="message">[$source] shelters you from the rain.</property>
+				</do>
+			</player-win>
+			<player-lose>
+				<do instruction="command" name="log-message">
+					<property name="message">[$source] fails to shelters you from the rain. You take 20 damage.</property>
+				</do>
+			</player-lose>
+			<player-undefended>
+				<do instruction="command" name="log-message">
+					<property name="message">You just suck. You take 20 damage.</property>
+				</do>
+			</player-undefended>
+		</on>
+	</card>
+	
+	<card id="1000001" name="Vinelash">
+		<property name="card-type">attack-event</property>
+		<property name="event-category">explore-terrain-rain</property>
+		<property name="event-power-type">physical</property>
+		<property name="event-power">15</property>
+		<property name="ability"></property>
+		<property name="weakness"></property>
+		<property name="flavor">A deadly vine lashes out at your party!</property>
+
+		<do instruction="command" name="resolve-attack" />
+		<on>
+			<player-win>
+				<do instruction="command" name="log-message">
+					<property name="message">[$source] rocks, vine loses.</property>
+				</do>
+			</player-win>
+			<player-lose>
+				<do instruction="command" name="log-message">
+					<property name="message">[$source] is blinded by vines awesomeness and attractiveness.  KF Panda dissapointed.</property>
+				</do>
+			</player-lose>
+		</on>
+	</card>
+	
+	<card id="2000001" name="Sorceress">
+		<property name="social">9</property>
+		<property name="physical">9</property>
+		<property name="explorer">9</property>
+		<property name="ability">defends-rain</property>
+		<property name="weakness"></property>
+		<property name="keywords">explorer,physical,social</property>
+		<property name="flavor">A sorceress does that thingie with the wand... you know, where cool stuff happens</property>
+		<do instruction="command" name="initiate-attack" />
+	</card>
+
+	<card id="2000002" name="Ranger">
+		<property name="social">0</property>
+		<property name="physical">0</property>
+		<property name="explorer">14</property>
+		<property name="defends-vs">explorer</property>
+	</card>
+
+	<card id="2000003" name="Nobel">
+		<property name="social">0</property>
+		<property name="physical">0</property>
+		<property name="explorer">14</property>
+		<property name="defends-vs">explorer</property>
+	</card>
+
+	<card id="1000001" name="Flood">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,LEARN,DIPLOMACY,TRADE,water,villagers,wood</property>
+			<property name="building-class">Mage</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">water</property>
+			<do instruction="command" name="log-message">
+				<property name="message">A flood has washed out a bridge on your journey.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">wood</property>
+						<property name="amount">defender.wood_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">You use [defender.wood_damage] wood to make a raft, but [defender.villager_damage] of your villagers were injured while crossing.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Mage from [$friend(defender.card_num)]'s village was already there fixing the bridge and carried your villagers over by raft.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] was already there fixing the bridge and carried your villagers over by raft.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+	
+	<card name="Flood Counter" id="2000001">
+		<action>
+			<property name="keywords">water</property>
+			<do instruction="command" name="set-in-context">
+				<property name="name">source</property>
+				<property name="value">A Mage from your village</property>
+			</do>
+			<do instruction="command" name="set-in-context">
+				<property name="name">source</property>
+				<property name="value">A Mage from your village</property>
+			</do>
+			<do instruction="command" name="set-result">
+				<property name="result">building</property>
+			</do>
+		</action>
+	</card>
+
+	<card id="1000002" name="Fire">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,LEARN,DIPLOMACY,EXPLORE,TRADE,fire,wood</property>
+			<property name="building-class">Healer</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">fire</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Your supplies have caught fire when your party breaks for camp.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">wood</property>
+						<property name="amount">defender.wood_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">Unfortunately, you lose [defender.wood_damage] wood before you can douse the flames.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message"> A Healer from [$friend(defender.card_num)]'s village hears your party's cries, and helps you douse the flames before your supplies are lost.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message"> [$source] hears your party's cries, and helps you douse the flames before your supplies are lost.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000003" name="Raid">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">STRENGTH,PROTECT,MAGIC,HEAL,COMBAT,combat,stone</property>
+			<property name="building-class">Warrior</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">combat</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Your party is attacked by a hostile enemy tribe!</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">stone</property>
+						<property name="amount">defender.stone_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">They make off with [defender.stone_damage] stone, and your villagers are shamed in their defeat.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">Luckily, a Warrior from [$friend(defender.card_num)] chases the bandits off.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">Luckily, [$source] chases the bandits off.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000004" name="Rockslide">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,LEARN,DIPLOMACY,TRADE,earth,villagers,stone</property>
+			<property name="building-class">Mage</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">earth</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Your party is unable to avoid a rockslide as they make their way through a trecherous mountain pass.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">stone</property>
+						<property name="amount">defender.stone_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">[defender.villager_damage] villagers are injured in the slide, and [defender.stone_damage] stone is lost in the debris.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">With sheer wilpower, a Mage from [$friend(defender.card_num)]'s village is able to help your party avoid being crushed.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">With sheer wilpower, [$source] is able to help your party avoid being crushed.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000005" name="Storm">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,LEARN,EXPLORE,TRADE,weather,stone,wood</property>
+			<property name="building-class">Shielder</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">weather</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Torrential downpours and gale-force winds impede your party's progress.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">stone</property>
+						<property name="amount">defender.stone_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">wood</property>
+						<property name="amount">defender.wood_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">You are forced to use [defender.wood_damage] wood and [defender.stone_damage] stone to erect a haphazard shelter.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Shielder from [$friend(defender.card_num)]'s village pitches a tent and invites you to wait out the storm.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] pitches a tent and invites you to wait out the storm.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000006" name="Sickness">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,LEARN,DIPLOMACY,EXPLORE,TRADE,health,villagers</property>
+			<property name="building-class">Healer</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">health</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Tainted food in your supplies have been discovered!</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">[defender.villager_damage] of your villagers have fallen ill, and must return home.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Healer from [$friend(defender.card_num)]'s village helped nurse your villagers back to health.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] helped nurse your villagers back to health.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000007" name="Lost">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,LEARN,EXPLORE,TRADE,travel,villagers,wood,stone</property>
+			<property name="building-class">Shielder</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">travel</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Overcast clouds hide the stars from your party.  You've become lost in the forest at night!</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">wood</property>
+						<property name="amount">defender.wood_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">stone</property>
+						<property name="amount">defender.stone_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">In the confusion, [defender.villager_damage] of your villagers get turned around and end up back home, along with their supplies.  They had [defender.stone_damage] stone and [defender.wood_damage] wood.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Shielder from [$friend(defender.card_num)]'s village guides you back to the proper path.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] guides you back to the proper path.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000008" name="Plains">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">general,time</property>
+			<property name="event-level">1</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">time</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Your party travels safely across the wide plains of the countryside.</property>
+			</do>
+		</action>
+	</card>
+
+	<card id="1000009" name="Forest">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">general,time</property>
+			<property name="event-level">1</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">time</property>
+			<do instruction="command" name="log-message">
+				<property name="message">The forest is calm and quiet as your party travels.</property>
+			</do>
+		</action>
+	</card>
+
+	<card id="1000010" name="Desert">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">general,time</property>
+			<property name="event-level">1</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">time</property>
+			<do instruction="command" name="log-message">
+				<property name="message">The desert area is harsh, but your party is well equipped to handle the hardships</property>
+			</do>
+		</action>
+	</card>
+
+	<card id="1000011" name="Plant">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,DIPLOMACY,EXPLORE,combat,villagers,wood</property>
+			<property name="building-class">Warrior</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">combat</property>
+			<do instruction="command" name="log-message">
+				<property name="message">A member of your party strays too close to one of the wild carnivorous Treetopian plants!</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">wood</property>
+						<property name="amount">defender.wood_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">Spend [defender.wood_damage] wood to save them.  [defender.villager_damage] was injured before you were able to pry the plant open, and must return home.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Warrior from [$friend(defender.card_num)]'s village is able to fight the plant off before it can cause any mischief.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] is able to fight the plant off before it can cause any mischief.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000012" name="Twister">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,LEARN,EXPLORE,TRADE,weather,villagers,stone</property>
+			<property name="building-class">Shielder</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">weather</property>
+			<do instruction="command" name="log-message">
+				<property name="message">A violent twister appears in the distance.  The angry whirlwind races by you, scattering your party and supplies.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">stone</property>
+						<property name="amount">defender.stone_damage * -1</property>
+						<property name="min">-1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">[defender.villager_damage] villagers become separated, and will return home to safety.  You lost [defender.stone_damage] stone in the turmoil.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Shielder from [$friend(defender.card_num)]'s village uses a Cloudwalker Shield to turn away the angry winds.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] uses a Cloudwalker Shield to turn away the angry winds.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000013" name="Gorge">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,COLLECT,LEARN,DIPLOMACY,TRADE,earth,wood,stone</property>
+			<property name="building-class">Mage</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">earth</property>
+			<do instruction="command" name="log-message">
+				<property name="message">Your journeys bring you to a seemingly impassable gorge.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">wood</property>
+						<property name="amount">defender.wood_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">stone</property>
+						<property name="amount">defender.stone_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">You are forced to use [defender.stone_damage] stone and [defender.wood_damage] wood to make tools to climb down the sheer rock walls.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Mage from [$friend(defender.card_num)]'s village summons a prized Dragonrider to ferry your people across the canyon.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] summons a prized Dragonrider to ferry your people across the canyon.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+
+	<card id="1000014" name="Poison">
+		<action>
+			<property name="card-type">event</property>
+			<property name="mechanic">resource</property>
+			<property name="deck">defense</property>
+			<property name="damage">0</property>
+			<property name="keywords">COMBAT,LEARN,DIPLOMACY,EXPLORE,TRADE,health,villager</property>
+			<property name="building-class">Healer</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">health</property>
+			<do instruction="command" name="log-message">
+				<property name="message">A Treetopian spore-vine releases a poisoned pollen at your party.</property>
+			</do>
+			<do instruction="command" name="defendable-hit" />
+			<on>
+				<hit>
+					<do instruction="command" name="add-counter">
+						<property name="character">defender</property>
+						<property name="counter">villagers</property>
+						<property name="amount">defender.villager_damage * -1</property>
+						<property name="min">-1</property>
+					</do>
+					<do instruction="command" name="log-message">
+						<property name="message">[defender.villager_damage] villagers no longer feel well enough to continue.</property>
+					</do>
+				</hit>
+				<neighbor>
+					<do instruction="command" name="log-message">
+						<property name="message">A Healer from [$friend(defender.card_num)]'s village provides your party with much-needed medicine.</property>
+					</do>
+				</neighbor>
+				<building>
+					<do instruction="command" name="log-message">
+						<property name="message">[$source] provides your party with much-needed medicine.</property>
+					</do>
+				</building>
+			</on>
+		</action>
+	</card>
+	
+</facade>

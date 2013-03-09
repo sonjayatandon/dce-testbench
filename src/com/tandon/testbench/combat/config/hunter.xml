@@ -1,0 +1,96 @@
+<facade>
+	<include-packages>
+		com.tandon.dce.combat
+		com.tandon.dce.characterclass
+	</include-packages>
+	<add-convention>command,.CMD_</add-convention>
+
+
+	<!-- attack moves -->
+	<card id="2000" name="Rapid Hit">
+		<action>
+			<property name="cost">1</property>
+			<property name="deck">defense</property>
+			<property name="damage">attacker.attack</property>
+			<property name="keywords">melee</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">*</property>
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">attacker.attack</property>
+			</do>
+		</action>
+	</card>
+
+	<card id="2001" name="Hard Hit">
+		<action>
+			<property name="cost">1</property>
+			<property name="deck">defense</property>
+			<property name="damage">attacker.attack * 2</property>
+			<property name="keywords">melee</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">*</property>
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="defendable-hit">
+				<property name="ally-index">1</property>
+				<property name="damage">attacker.attack</property>	
+			</do>
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">attacker.attack</property>
+			</do>
+		</action>
+	</card>
+	
+	<card id="2002" name="Devastation">
+		<action>
+			<property name="cost">1</property>
+			<property name="deck">defense</property>
+			<property name="damage">attacker.attack * 3</property>
+			<property name="keywords">melee</property>
+			<property name="fatigue">0</property>
+			<property name="parry-damage">0</property>
+			<property name="block-damage">0</property>
+			<property name="target-keyword">*</property>
+			<do instruction="command" name="defendable-hit" />
+			<do instruction="command" name="add-counter">
+				<property name="character">attacker</property>
+				<property name="counter">pull</property>
+				<property name="amount">attacker.attack</property>
+			</do>
+		</action>
+	</card>
+
+	<!-- hunter levels -->
+	<class id="3" name="Hunter">
+		<stats>
+			<attribute id="1" name="initiative" value="3" />
+			<attribute id="2" name="attack" value="7" />
+			<attribute id="3" name="defense" value="3" />
+			<attribute id="4" name="spirit" value="5" />
+			<attribute id="5" name="pull" value="3" />
+		</stats>
+		<template name="level 1">
+			<add-card deck="attack" id="2000" />
+		</template>
+		<template name="level 2">
+			<add-card deck="attack" id="2000" />
+			<add-card deck="attack" id="2001" />
+		</template>
+		<template name="level 3">
+			<add-card deck="attack" id="2000" />
+			<add-card deck="attack" id="2001" />
+			<add-card deck="attack" id="2002" />
+		</template>
+	</class>
+	
+</facade>
